@@ -11,25 +11,32 @@ import java.util.ArrayList;
  */
 public class SGA {
     DBBufferCache DBBC = new DBBufferCache();//database buffer cache
-    String MRU[] = new String[20];//tableau des requêtes
+    ArrayList MRU = new ArrayList();//tableau des requêtes
     int MRUcourant;//nombre de requêtes dans le tableau MRU
     
     public SGA(){
-        MRUcourant=0;
-        for(int i=0;i<20;i++)
-            MRU[i]="CaseVide";
+        MRUcourant=19;
     }
     public void schema(String requete){
         String temp="";
+        boolean trouve=false;
         if(MRUcourant==20) {
-            for(int i=0;i<20;i++){
-                if(requete.equals(MRU[i]))
-                    temp=MRU[i+1];
-                MRU[i+1]=MRU[i];
-                MRU[i]=temp;
+            if(MRU.contains(requete)){
+                int indice=MRU.indexOf(requete);
+                if(indice<19){
+                    Object MRUSuiv=MRU.get(indice+1);
+                    MRU.set(indice+1,requete);
+                    MRU.set(indice, MRUSuiv);
+                    trouve=true;
+                }
+            }
+            if(trouve==false){
+               int MRUcourantMoit=(int)(MRUcourant/2);
+               MRU.add(MRUcourant);
             }
         } else {
-        
+             MRU.add(MRUcourant, requete);
+             MRUcourant-=1;  
         }
     }
 }
