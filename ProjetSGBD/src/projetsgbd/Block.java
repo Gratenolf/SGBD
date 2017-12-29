@@ -6,7 +6,7 @@ public class Block {
     private ArrayList suivant;
     private final int MAX = 1000;
     private int taille;
-    public ArrayList enregistrement = new ArrayList();
+    private ArrayList enregistrement = new ArrayList();
     
     public Block(int num){
         this.numero = num;
@@ -15,6 +15,10 @@ public class Block {
     
     public int getNumero(){
         return this.numero;
+    }
+    
+    public boolean getEnregistrement(String req){
+        return this.enregistrement.contains(req);
     }
     
     private Object getEnregistrement(int i){
@@ -31,6 +35,14 @@ public class Block {
     
     private void  setSuivant(int i){
         this.suivant.add(i);
+    }
+    
+    public int Pourcentage(){
+        return (100 * taille / MAX);
+    }
+    
+    public int getTaille(){
+        return taille;
     }
     
     public void addEnregistrement(String s, int i){

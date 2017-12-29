@@ -10,13 +10,40 @@ package projetsgbd;
  * @author Adam
  */
 public class GBlock extends Thread{
+    public boolean travail;
+    public boolean finProgramme;
+    public String requete;
+    
     public GBlock(){
-        
+        travail=false;
+        finProgramme=false;
     }
-    public void run(){
-        for(int i=0;i<100;i++)
-        {
-            System.out.println("test thread " + i);
+    public boolean getTravail(){
+        return travail;
+    }
+    public void setTravail(boolean travail,String requete){
+        this.travail=travail;
+        this.requete=requete;
+    }
+    
+    public String rechBuffer(String requete,SGA sgabuff){
+        String res=sgabuff.rechBlock(requete);
+        return res;
+    }
+    public void run() {
+        while(finProgramme==false){
+            try{
+                while(travail==false){
+                    System.out.println("GBlock dort");
+                    sleep(1000);
+                }
+                System.out.println("GBlock s'est réveillé");
+                
+                
+            }
+            catch(InterruptedException e){
+                System.out.println("Error Catch GBlock");
+            }
         }
     }
 }

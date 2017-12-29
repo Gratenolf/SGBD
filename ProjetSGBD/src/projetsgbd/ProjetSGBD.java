@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package projetsgbd;
-import java.util.ArrayList;
 /**
  *
  * @author Adam
@@ -15,13 +14,16 @@ public class ProjetSGBD {
      * @param args the command line arguments
      */
     public static void main(String[] args){
-        GBlock testGBlock=new GBlock();
-        testGBlock.start();
-        Serveur testServ=new Serveur();
+        MemDisque testDisque = new MemDisque();
+        testDisque.Remplir();
+        String req="blabla";
+        SGA testSGA= new SGA();
+        testSGA.Ajoutschema(req);
+        Serveur testServ=new Serveur(testSGA,testDisque);
         testServ.start();
-        try{
-            testGBlock.sleep(100);
-        }catch(InterruptedException e){}
+        req="blablabla";
+        testSGA.Ajoutschema(req);
+        
         
         // TODO code application logic here
     }
