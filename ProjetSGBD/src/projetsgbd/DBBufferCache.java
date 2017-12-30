@@ -1,24 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package projetsgbd;
 
+/**
+ *
+ * @author Adam
+ */
 public class DBBufferCache {
     private Block block [];
+    private int nbBlockList;
     private int nbBlocCourant;
+    private boolean ecriture;
+    private boolean modif;
+   
     
     public DBBufferCache(){
         block = new Block[5];
         for(int i=0;i<5;i++){
-            block[i] = new Block(nbBlocCourant++);
+            block[i] = new Block(nbBlocCourant);
         }
         nbBlocCourant=0;
+        modif=false;
+        nbBlockList=4;
     }
-     
+    
+        public boolean getModif(){
+        return modif;
+    }
+  
     public void remplir(String enr){
         int res = insertBlock(enr, 0, false);
         if(res == -1)
             System.out.println("Erreur : mémoire dépassée.");
     }
     
-    private int insertBlock(String enr, int id, boolean decoup){
+     private int insertBlock(String enr, int id, boolean decoup){
         boolean pos = false;
         int retour = 0;
         if((enr.getBytes().length + block[id].getMemoirePrise()) <= block[id].getTaille()){
@@ -57,7 +76,6 @@ public class DBBufferCache {
         }
         return retour;
     }
-    
     public void removeEnregistrement(String s){
         int i = 0;
         boolean rm = false;
@@ -80,6 +98,68 @@ public class DBBufferCache {
             if(block[i].getEnregistrement(requete))
                res="trouvé";
        }
+         
        return res;
+    }
+    
+    public void copie(Block Source){
+        for(int j=0;j<Source.getEnregistrement().size();j++){
+            block[nbBlockList].addEnregistrement(Source.getEnregistrement(j).toString(), j);
+        }
+    }
+    
+    public void copie(Block Dest, Block Source){
+        for(int j=0;j<Source.getEnregistrement().size();j++){
+            Dest.addEnregistrement(Source.getEnregistrement(j).toString(), j);
+        }
+    }
+    
+    public void ajoutDonneeDisque(String req,Block bl){
+        boolean trouve=false;
+        Block temp;
+        if(nbBlockList==0) {
+            for(int i=0;i<5;i++){
+                if(block[i].getEnregistrement(req)){
+                    //alors on l'incrémente
+                    if(i<4){
+                        temp = new Block(i);
+                        copie(temp,block[i+1]);
+                        copie(block[i+1],block[i]); 
+                        copie(block[i],temp);
+                    }
+                }
+                else{
+                    //on ajoute le bloc au mileu du tableau et on décale les autres (ce qui en dégage 1)
+                    copie(block[0],block[1]);
+                    copie(block[1],block[2]);
+                    copie(block[2],bl);
+                }    
+            }
+        }
+        else{
+            for(int i=4;i>=0;i--){
+                if(block[i].getEnregistrement(req)){
+                    //alors on l'incrémente
+                    if(i<4){
+                        temp = new Block(i);
+                        copie(temp,block[i+1]);
+                        copie(block[i+1],block[i]); 
+                        copie(block[i],temp);
+                    }
+                }
+                else{
+                        copie(bl);
+                        //on ajoute le bloc au début du tableau  
+                }  
+            }
+        }
+    }
+    public void pourcentage(){
+        int pct = 0;
+        for(int i = 0; i < block.length; i++){
+            System.out.println("Bloc "+ i +" : occupé à "+ block[i].Pourcentage() +"%.");
+            pct += block[i].Pourcentage();
+        }
+        System.out.println("mémoire occupé à "+ (pct / block.length) +"%.");
     }
 }

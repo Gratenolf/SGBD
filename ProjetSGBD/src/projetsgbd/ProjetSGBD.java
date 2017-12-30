@@ -15,14 +15,62 @@ public class ProjetSGBD {
      */
     public static void main(String[] args){
         MemDisque testDisque = new MemDisque();
-        testDisque.Remplir();
-        String req="blabla";
+        testDisque.remplir("azertyuiopazertyuiopazertyuiop");
+        //String req="blabla";
         SGA testSGA= new SGA();
-        testSGA.Ajoutschema(req);
+        //testSGA.Remplir("azertyuiopazertyuiopazertyuiop");
+        /*testSGA.ajoutSchema(req);
+        
+        req="blablabla";
+        testSGA.ajoutSchema(req);
+        req="blablablB";
+        testSGA.ajoutSchema(req);
+        req="blablablC";
+        testSGA.ajoutSchema(req);
+        req="blablablD";
+        testSGA.ajoutSchema(req);
+        req="blablablE";
+        testSGA.ajoutSchema(req);
+        req="blablablF";
+        testSGA.ajoutSchema(req);
+        req="blablablG";
+        testSGA.ajoutSchema(req);
+        req="blablablH";
+        testSGA.ajoutSchema(req);
+        req="blablablI";
+        testSGA.ajoutSchema(req);
+        req="blablablJ";
+        testSGA.ajoutSchema(req);
+        req="blablablK";
+        testSGA.ajoutSchema(req);
+        req="blablablL";
+        testSGA.ajoutSchema(req);
+        req="blablablM";
+        testSGA.ajoutSchema(req);
+        req="blablablN";
+        testSGA.ajoutSchema(req);
+        req="blablablO";
+        testSGA.ajoutSchema(req);
+        req="blablablP";
+        testSGA.ajoutSchema(req);
+        req="blablablQ";
+        testSGA.ajoutSchema(req);
+        req="blablablR";
+        testSGA.ajoutSchema(req);
+        req="blablablS";
+        testSGA.ajoutSchema(req);
+        req="blablablT";
+        testSGA.ajoutSchema(req);
+        req="blablablU";
+        testSGA.ajoutSchema(req);
+        req="blablablV";
+        testSGA.ajoutSchema(req);
+        req="blablablW";
+        testSGA.ajoutSchema(req);*/
+        
         Serveur testServ=new Serveur(testSGA,testDisque);
         testServ.start();
-        req="blablabla";
-        testSGA.Ajoutschema(req);
+        
         
         
         // TODO code application logic here

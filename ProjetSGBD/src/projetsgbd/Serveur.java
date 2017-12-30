@@ -15,6 +15,7 @@ public class Serveur extends Thread{
     public boolean finProgramme;
     public String requete;
     public String ResRech;
+    private Block ResRechBlock; 
     
     public Serveur(SGA sgabuff,MemDisque memoireD){
         this.sgabuff = sgabuff;
@@ -28,10 +29,10 @@ public class Serveur extends Thread{
     }
     public void recupDisque(String requete){
         System.out.println("recupDisque requete: "+requete);
-        ResRech=memoireD.getElemMemDisque(requete);
+        ResRechBlock=memoireD.getElemMemDisque(requete);
     }
     public void run(){
-        //while(finProgramme==false){
+        while(finProgramme==false){
                 requete="azertyuiopazertyuiopazertyuiop";
                 System.out.println("Serveur s'est réveillé");
                 recupBuffer(requete);
@@ -40,16 +41,23 @@ public class Serveur extends Thread{
                 else if(ResRech.equals("Pas de res")){
                         System.out.println("Erreur pas de resultat dans le buffer");
                         recupDisque(requete);
-                        if(ResRech.equals("Pas de res")){
+                        
+                        //si lecture pas aboutie à cause de l'écriture ou DBWR,
+                        //mettre un systeme while/wait tant que lecture pas effectué
+                        if(ResRechBlock.getNumero()==-1){
                             System.out.println("Erreur pas de resultat sur le disque");
                         }
                         else
                         {
                             System.out.println("Un resultat venant de la mémoire disque!");
+                            sgabuff.ajoutDonneeDisque(requete, ResRechBlock);
+                            //Ecriture dans la mémoire buffercache de SGA
                         }
                 }
                 else
                     System.out.println("Un resultat venant de la mémoire centrale!");
-        //}
+                
+            
+        }
     }
 }

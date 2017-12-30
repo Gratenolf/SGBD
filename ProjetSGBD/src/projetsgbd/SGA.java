@@ -10,9 +10,9 @@ import java.util.ArrayList;
  * @author Adam
  */
 public class SGA {
-    DBBufferCache DBBC;//database buffer cache
-    ArrayList MRU;//tableau des requêtes
-    int MRUcourant;//nombre de requêtes dans le tableau MRU
+    private DBBufferCache DBBC;//database buffer cache
+    private ArrayList MRU;//tableau des requêtes
+    private int MRUcourant;//nombre de requêtes dans le tableau MRU
     
     public SGA(){
         MRUcourant=19;
@@ -21,6 +21,14 @@ public class SGA {
         for(int i=0;i<20;i++){
             MRU.add("Case Vide");
         }
+    }
+    
+    public boolean getModif(){
+        return DBBC.getModif();
+    }
+    
+    public void ajoutDonneeDisque(String req,Block bl){
+        DBBC.ajoutDonneeDisque(req, bl);
     }
     public String rechBlock(String requete){
         String res="Pas de res";
