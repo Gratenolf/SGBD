@@ -19,9 +19,9 @@ public class Block {
     
     public boolean getEnregistrement(String req){
         int i = 0;
-        while(req.contains((String) this.enregistrement.get(i)) && i < this.enregistrement.size())
+        while(!req.contains((String) this.enregistrement.get(i)) && i < this.enregistrement.size())
             i++;
-        if(i < this.enregistrement.size())
+        if(i >= this.enregistrement.size())
             return false;
         return true;
     }
@@ -34,7 +34,7 @@ public class Block {
         this.enregistrement.add(s);
     }
     
-    private Object getSuivant(int i){
+    public Object getSuivant(int i){
         return this.suivant.get(i);
     }
     
@@ -52,6 +52,10 @@ public class Block {
     
     public int getTaille(){
         return this.taille;
+    }
+    
+    public ArrayList getEnregistrement(){
+        return enregistrement;
     }
     
     public void addEnregistrement(String s, int i){
