@@ -36,6 +36,7 @@ public class MemDisque {
                 }
             }
         }
+        nbBlocCourant=0;
     }
     
     

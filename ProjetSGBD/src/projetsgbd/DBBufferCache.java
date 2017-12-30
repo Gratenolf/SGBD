@@ -17,7 +17,6 @@ public class DBBufferCache {
         blocks = new Block[5];
         for(int i=0;i<5;i++){
             blocks[i] = new Block(nbBlocCourant);
-            nbBlocCourant+=1;
         }
         nbBlocCourant=0;
     }
@@ -28,10 +27,15 @@ public class DBBufferCache {
             if(rempli==false){
                 if(enr.getBytes().length<blocks[i].getTaille()){
                     blocks[i].addEnregistrement(enr,nbBlocCourant);
+                    
                     rempli=true;
+                }
+                else{
+                    nbBlocCourant+=1;
                 }
             }
         }
+        nbBlocCourant=0;
     }
      
     public String getElemMemCentrale(String requete){
