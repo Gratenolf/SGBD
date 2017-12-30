@@ -37,7 +37,7 @@ public class DBBufferCache {
             System.out.println("Erreur : mémoire dépassée.");
     }
     
-     private int insertBlock(String enr, int id, boolean decoup){
+    private int insertBlock(String enr, int id, boolean decoup){
         boolean pos = false;
         int retour = 0;
         if((enr.getBytes().length + block[id].getMemoirePrise()) <= block[id].getTaille()){
@@ -64,16 +64,14 @@ public class DBBufferCache {
                 }
                 String subStr = enr.substring(0,nbDecoup);
                 int lien = insertBlock(enr.substring(nbDecoup), (id + 1), true);
-                block[id].addEnregistrement(enr, lien);
+                block[id].addEnregistrement(subStr, lien);
                 pos = true;
             }
         }
-        else{
-            if(id < block.length && pos == false)
-                retour = insertBlock(enr, (id + 1), decoup);
-            else if(retour == 0)
-                retour = -1;
-        }
+        if(id < block.length && pos == false)
+            retour = insertBlock(enr, (id + 1), decoup);
+        else if(retour == 0)
+            retour = -1;
         return retour;
     }
     public void removeEnregistrement(String s){
@@ -106,6 +104,7 @@ public class DBBufferCache {
         for(int j=0;j<Source.getEnregistrement().size();j++){
             block[nbBlockList].addEnregistrement(Source.getEnregistrement(j).toString(), j);
         }
+
     }
     
     public void copie(Block Dest, Block Source){
@@ -116,43 +115,56 @@ public class DBBufferCache {
     
     public void ajoutDonneeDisque(String req,Block bl){
         boolean trouve=false;
+        boolean CopieFaite=false;
         Block temp;
         if(nbBlockList==0) {
             for(int i=0;i<5;i++){
-                if(block[i].getEnregistrement(req)){
-                    //alors on l'incrémente
-                    if(i<4){
-                        temp = new Block(i);
-                        copie(temp,block[i+1]);
-                        copie(block[i+1],block[i]); 
-                        copie(block[i],temp);
+                if(CopieFaite==false){
+                    if(block[i].getEnregistrement(req)){
+                        //alors on l'incrémente
+                        if(i<4){
+                            temp = new Block(i);
+                            copie(temp,block[i+1]);
+                            copie(block[i+1],block[i]); 
+                            copie(block[i],temp); 
+                            CopieFaite=true;
+                        }
                     }
+                    else{
+                        //on ajoute le bloc au mileu du tableau et on décale les autres (ce qui en dégage 1)
+                        copie(block[0],block[1]);
+                        copie(block[1],block[2]);
+                        copie(block[2],bl);
+                        CopieFaite=true;
+                    }    
                 }
-                else{
-                    //on ajoute le bloc au mileu du tableau et on décale les autres (ce qui en dégage 1)
-                    copie(block[0],block[1]);
-                    copie(block[1],block[2]);
-                    copie(block[2],bl);
-                }    
             }
         }
         else{
             for(int i=4;i>=0;i--){
-                if(block[i].getEnregistrement(req)){
-                    //alors on l'incrémente
-                    if(i<4){
-                        temp = new Block(i);
-                        copie(temp,block[i+1]);
-                        copie(block[i+1],block[i]); 
-                        copie(block[i],temp);
+                if(CopieFaite==false){
+                    if(block[i].getEnregistrement(req)){
+                        //alors on l'incrémente
+                        if(i<4){
+                            temp = new Block(i);
+                            copie(temp,block[i+1]);
+                            copie(block[i+1],block[i]); 
+                            copie(block[i],temp); 
+                            CopieFaite=true;
+                        }
+                    }
+                    else{
+                            CopieFaite=true;
+                            copie(bl);
+                            nbBlockList-=1;
+                            System.out.println("Ajout block à gauche du tableau");
+                            //on ajoute le bloc au début du tableau  
                     }
                 }
-                else{
-                        copie(bl);
-                        //on ajoute le bloc au début du tableau  
-                }  
             }
         }
+        pourcentage();
+        
     }
     public void pourcentage(){
         int pct = 0;
