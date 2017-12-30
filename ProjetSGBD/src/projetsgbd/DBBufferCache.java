@@ -57,6 +57,22 @@ public class DBBufferCache {
         }
         return retour;
     }
+    
+    public void removeEnregistrement(String s){
+        int i = 0;
+        boolean rm = false;
+        while(i < block.length && rm == false){
+            if(block[i].getEnregistrement(s)){
+                int tmp = block[i].removeEnregistrement(s);
+                if(tmp == -1)
+                    rm = true;
+                else
+                    i = tmp;
+            }
+            else
+                i++;
+        }
+    }
      
     public String getElemMemCentrale(String requete){
         String res="Pas de res";
