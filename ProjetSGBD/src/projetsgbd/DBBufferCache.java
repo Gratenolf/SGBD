@@ -1,50 +1,69 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projetsgbd;
 
-/**
- *
- * @author Adam
- */
 public class DBBufferCache {
-    private Block blocks [];
+    private Block block [];
     private int nbBlocCourant;
     
     public DBBufferCache(){
-        blocks = new Block[5];
+        block = new Block[5];
         for(int i=0;i<5;i++){
-            blocks[i] = new Block(nbBlocCourant);
+            block[i] = new Block(nbBlocCourant++);
         }
         nbBlocCourant=0;
     }
-  
+     
     public void remplir(String enr){
-        boolean rempli=false;
-        for(int i=0;i<5;i++){
-            if(rempli==false){
-                if(enr.getBytes().length<blocks[i].getTaille()){
-                    blocks[i].addEnregistrement(enr,nbBlocCourant);
-                    
-                    rempli=true;
+        int res = insertBlock(enr, 0, false);
+        if(res == -1)
+            System.out.println("Erreur : mémoire dépassée.");
+    }
+    
+    private int insertBlock(String enr, int id, boolean decoup){
+        boolean pos = false;
+        int retour = 0;
+        if((enr.getBytes().length + block[id].getMemoirePrise()) <= block[id].getTaille()){
+            block[id].addEnregistrement(enr, -1);
+            pos = true;
+            if(decoup)
+                return id;
+            else
+                return 0;
+        }
+        else if(enr.length() >= 40){
+            int nbDecoup = 0;
+            if(block[id].Pourcentage() < 95){
+                if(block[id].Pourcentage() >= 90){
+                    nbDecoup = 20;
                 }
                 else{
-                    nbBlocCourant+=1;
+                    int bytesRestant = block[id].getTaille() - block[id].getMemoirePrise();
+                    int seuilDecoup = (bytesRestant - (bytesRestant % 4)) / 4;
+                    if(enr.length() - seuilDecoup < 20)
+                        nbDecoup = enr.length() - 20;
+                    else
+                        nbDecoup = seuilDecoup;
                 }
+                String subStr = enr.substring(0,nbDecoup);
+                int lien = insertBlock(enr.substring(nbDecoup), (id + 1), true);
+                block[id].addEnregistrement(enr, lien);
+                pos = true;
             }
         }
-        nbBlocCourant=0;
+        else{
+            if(id < block.length && pos == false)
+                retour = insertBlock(enr, (id + 1), decoup);
+            else if(retour == 0)
+                retour = -1;
+        }
+        return retour;
     }
      
     public String getElemMemCentrale(String requete){
         String res="Pas de res";
         for(int i=0;i<5;i++){
-            if(blocks[i].getEnregistrement(requete))
+            if(block[i].getEnregistrement(requete))
                res="trouvé";
        }
-         
        return res;
     }
 }
