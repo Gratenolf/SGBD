@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Block {
     private int numero;
     private ArrayList suivant;
-    private final int MAX = 1000;
-    private int taille;
+    private final int taille = 1000;
+    private int memoirePrise;
     private ArrayList enregistrement = new ArrayList();
     
     public Block(int num){
         this.numero = num;
-        this.taille = 0;
+        this.memoirePrise = 0;
     }
     
     public int getNumero(){
@@ -38,17 +38,21 @@ public class Block {
     }
     
     public int Pourcentage(){
-        return (100 * taille / MAX);
+        return (100 * memoirePrise / taille);
+    }
+    
+    public int getMemoirePrise(){
+        return memoirePrise;
     }
     
     public int getTaille(){
-        return taille;
+        return this.taille;
     }
     
     public void addEnregistrement(String s, int i){
-        if(taille + (s.getBytes().length) <= this.taille){
+        if(this.memoirePrise + (s.getBytes().length) <= this.taille){
             this.setEnregistrement(s);
-            this.taille += s.getBytes().length;
+            this.memoirePrise += s.getBytes().length;
             this.setSuivant(i);
         }
         else{
@@ -60,7 +64,7 @@ public class Block {
         int i = 0;
         while(i < this.enregistrement.size()){
             if(s.contains((String) this.enregistrement.get(i))){
-                this.taille -= s.getBytes().length;
+                this.memoirePrise -= s.getBytes().length;
                 this.enregistrement.remove(i);
                 return (int) this.suivant.get(i);
             }
