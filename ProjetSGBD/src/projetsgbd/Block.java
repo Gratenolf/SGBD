@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Block {
     private int numero;
-    private ArrayList suivant;
+    private ArrayList suivant = new ArrayList();
     private final int taille = 1000;
     private int memoirePrise;
     private ArrayList enregistrement = new ArrayList();
@@ -18,7 +18,12 @@ public class Block {
     }
     
     public boolean getEnregistrement(String req){
-        return this.enregistrement.contains(req);
+        int i = 0;
+        while(req.contains((String) this.enregistrement.get(i)) && i < this.enregistrement.size())
+            i++;
+        if(i < this.enregistrement.size())
+            return false;
+        return true;
     }
     
     private Object getEnregistrement(int i){
