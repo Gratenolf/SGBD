@@ -27,10 +27,16 @@ public class SGA {
         res=DBBC.getElemMemCentrale(requete);
         return res;
     }
-    public void Ajoutschema(String requete){
+    
+    public void Remplir(String enr){
+        this.DBBC.remplir(enr);
+    }
+        
+        
+    public void ajoutSchema(String requete){
         String temp="";
         boolean trouve=false;
-        if(MRUcourant==20) {
+        if(MRUcourant==0) {
             if(MRU.contains(requete)){
                 int indice=MRU.indexOf(requete);
                 if(indice<19){

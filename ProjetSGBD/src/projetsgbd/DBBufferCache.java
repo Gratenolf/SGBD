@@ -21,18 +21,16 @@ public class DBBufferCache {
         }
         nbBlocCourant=0;
     }
-    
-     public void Remplir(){
+  
+    public void remplir(String enr){
+        boolean rempli=false;
         for(int i=0;i<5;i++){
-            blocks[i].addEnregistrement("a",nbBlocCourant);
-        }
-        nbBlocCourant=5;
-    }
-     
-    public void Remplir(String enr){
-        for(int i=0;i<5;i++){
-            if(enr.getBytes().length<blocks[i].getTaille())
-                blocks[i].addEnregistrement(enr,nbBlocCourant);
+            if(rempli==false){
+                if(enr.getBytes().length<blocks[i].getTaille()){
+                    blocks[i].addEnregistrement(enr,nbBlocCourant);
+                    rempli=true;
+                }
+            }
         }
     }
      

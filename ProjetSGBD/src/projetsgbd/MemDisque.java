@@ -12,25 +12,29 @@ package projetsgbd;
 public class MemDisque {
     public Block[] blocks;
     public int nbBlocCourant;
+    
     public MemDisque(){
         blocks = new Block[5];
         for(int i=0;i<5;i++){
-            blocks[i] = new Block(nbBlocCourant);
-            nbBlocCourant+=1;
+            blocks[i] = new Block(i);
         }
         nbBlocCourant=0;
     }
     
-    public void Remplir(){
+    public void remplir(String enr){
+        boolean rempli=false;
         for(int i=0;i<5;i++){
-            blocks[i].addEnregistrement("a",nbBlocCourant);
-        }
-        nbBlocCourant=5;
-    }
-    public void Remplir(String enr){
-        for(int i=0;i<5;i++){
-            if(enr.getBytes().length<blocks[i].getTaille())
-                blocks[i].addEnregistrement(enr,nbBlocCourant);
+            if(rempli==false){
+                
+                if(enr.getBytes().length < blocks[i].getTaille()){
+                    blocks[i].addEnregistrement(enr,nbBlocCourant);
+                    rempli=true;
+                }
+                else
+                {
+                    nbBlocCourant+=1;
+                }
+            }
         }
     }
     
@@ -38,6 +42,7 @@ public class MemDisque {
     
     public String getElemMemDisque(String requete){
        String res="Pas de res";
+       System.out.println("Sur le point Disque requete: "+requete);
        for(int i=0;i<5;i++){
            if(blocks[i].getEnregistrement(requete))
                res="trouvé";
