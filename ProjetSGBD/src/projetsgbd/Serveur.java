@@ -5,10 +5,6 @@
  */
 package projetsgbd;
 
-/**
- *
- * @author Adam
- */
 public class Serveur extends Thread{
     private SGA sgabuff;
     private MemDisque memoireD;
@@ -52,9 +48,6 @@ public class Serveur extends Thread{
                 else if(ResRech.equals("Pas de res")){
                         System.out.println("requete: "+requete+" Erreur pas de resultat dans le buffer");
                         recupDisque(requete);
-                        
-                        //si lecture pas aboutie à cause de l'écriture ou DBWR,
-                        //mettre un systeme while/wait tant que lecture pas effectué
                         if(ResRechBlock.getNumero()==-1){
                             System.out.println("requete: "+requete+" Erreur pas de resultat sur le disque");
                         }
@@ -62,7 +55,6 @@ public class Serveur extends Thread{
                         {
                             System.out.println("requete: "+requete+" Un resultat venant de la mémoire disque!");
                             sgabuff.ajoutDonneeDisque(requete, ResRechBlock);
-                            //Ecriture dans la mémoire buffercache de SGA
                         }
                 }
                 else{

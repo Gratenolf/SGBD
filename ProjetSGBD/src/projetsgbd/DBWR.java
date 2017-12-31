@@ -5,10 +5,7 @@
  */
 package projetsgbd;
 
-/**
- *
- * @author Adam
- */
+
 public class DBWR extends Thread{
     private MemDisque memoireD;
     private SGA sgabuff;
@@ -30,8 +27,6 @@ public class DBWR extends Thread{
                     for(int i=0;i<sgabuff.getDBBC().getBlock().length;i++){
                         for(int j=0;j<id.length;j++){
                             if(i==id[j]){
-                                //temp=sgabuff.getDBBC().getBlock();
-                                //System.out.println("ID "+id[j]+" I "+i+" J "+j+ " DBWR "+sgabuff.getDBBC().getBlock()[j].toString()+" Indice Disque "+sgabuff.getDBBC().getBlock()[j].getIndiceDisque());
                                 memoireD.RecopieBlock(sgabuff.getDBBC().getBlock()[j],sgabuff.getDBBC().getBlock()[j].getIndiceDisque());
                                 System.out.println("réécriture effectué");
                                 System.out.println("\tBloc en mémoire disque: "+memoireD.toString());
@@ -39,22 +34,6 @@ public class DBWR extends Thread{
                             }
                         }
                     }
-                     //parcours des block en buffer
-                            //Si le block correspond au tableau d'id
-                            //Alors le copie à l'emplacement de son idDisque
-                    
-                    
-                    /*for(int i=0;i<id.length;i++){
-                        for(int j=0;j<sgabuff.getDBBC().getBlock().length;j++){
-                            
-                           
-                            
-                            for(memoireD)
-                                if(i==)
-                            memoireD.RecopieBlock(bl);
-                            //memoireD.insertEnregistrement((String)sgabuff.getDBBC().getBlock()[id[i]].getEnregistrement(j));
-                        }
-                    }*/
                 }
                 else{
                     try{

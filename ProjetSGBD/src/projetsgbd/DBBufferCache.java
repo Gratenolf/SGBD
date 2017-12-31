@@ -5,10 +5,7 @@
  */
 package projetsgbd;
 import java.util.ArrayList;
-/**
- *
- * @author Adam
- */
+
 public class DBBufferCache {
     private Block block [];
     private int nbBlockList;

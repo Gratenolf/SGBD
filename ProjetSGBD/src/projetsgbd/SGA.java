@@ -5,10 +5,7 @@
  */
 package projetsgbd;
 import java.util.ArrayList;
-/**
- *
- * @author Adam
- */
+
 public class SGA {
     private DBBufferCache DBBC;//database buffer cache
     private ArrayList MRU;//tableau des requêtes

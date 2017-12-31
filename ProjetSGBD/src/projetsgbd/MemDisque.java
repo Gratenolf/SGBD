@@ -5,10 +5,7 @@
  */
 package projetsgbd;
 
-/**
- *
- * @author Adam
- */
+
 public class MemDisque {
     public Block[] block;
     private int nbBlocCourant;
