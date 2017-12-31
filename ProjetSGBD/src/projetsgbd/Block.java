@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Block {
     private int numero;
     private ArrayList suivant = new ArrayList();
-    private final int taille = 1000;
+    private final int taille = 100;
     private int memoirePrise;
     private ArrayList enregistrement = new ArrayList();
     
@@ -27,9 +27,11 @@ public class Block {
     
     public boolean getEnregistrement(String req){
         int i = 0;
-        while(i < (this.enregistrement.size())-1 && !req.contains((String) this.enregistrement.get(i)) )
+        while(i <= (this.enregistrement.size())-1 && !req.contains((String) this.enregistrement.get(i)) )
+        {
             i++;
-        if(i >= this.enregistrement.size())
+        }
+        if(i >= (this.enregistrement.size()))
             return false;
         return true;
     }
@@ -63,7 +65,9 @@ public class Block {
     }
     
     public void addEnregistrement(String s, int i){
+        
         if(this.memoirePrise + (s.getBytes().length) <= this.taille){
+            System.out.println("ajout enregistrement bloc");
             this.setEnregistrement(s);
             this.memoirePrise += s.getBytes().length;
             this.setSuivant(i);

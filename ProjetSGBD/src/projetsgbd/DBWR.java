@@ -12,6 +12,7 @@ package projetsgbd;
 public class DBWR extends Thread{
     private MemDisque memoireD;
     private SGA sgabuff;
+    private int id[];
     public DBWR(MemDisque memoireD,SGA sgabuff){
         this.memoireD=memoireD;
         this.sgabuff=sgabuff;
@@ -20,10 +21,30 @@ public class DBWR extends Thread{
     public void run(){
         if(sgabuff.getModif()){
             if(memoireD.getLecture()==false){
-                
+                id=sgabuff.getid();
+                for(int i=0;i<id.length;i++){
+                    for(int j=0;j<sgabuff.getDBBC().getBlock().length;j++){
+                        memoireD.insertEnregistrement((String)sgabuff.getDBBC().getBlock()[id[i]].getEnregistrement(j));
+                    }
+                }
             }
-                
-                //memoireD.remplir(); //remplir avec les éléments modifier de DBBufferCache(SGA)
+            else{
+                try{
+                    sleep(100);
+                }
+                catch(InterruptedException e){
+                    System.out.println("Error sleep");
+                }
+            }
+         //remplir avec les éléments modifier de DBBufferCache(SGA)
+        }
+        else{
+            try{
+                sleep(100);
+            }
+            catch(InterruptedException e){
+                System.out.println("Error sleep");
+            }
         }
             
     }

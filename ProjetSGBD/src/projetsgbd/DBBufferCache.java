@@ -27,11 +27,19 @@ public class DBBufferCache {
         nbBlockList=4;
     }
     
-        public boolean getModif(){
+    public Block[] getBlock(){
+        return block;
+    }
+    
+    public int getNbBlock(){
+        return block.length;
+    }
+    
+    public boolean getModif(){
         return modif;
     }
   
-    public void remplir(String enr){
+    public void insertEnregistrement(String enr){
         int res = insertBlock(enr, 0, false);
         if(res == -1)
             System.out.println("Erreur : mémoire dépassée.");
@@ -72,6 +80,7 @@ public class DBBufferCache {
             retour = insertBlock(enr, (id + 1), decoup);
         else if(retour == 0)
             retour = -1;
+        pourcentage();
         return retour;
     }
     public void removeEnregistrement(String s){
@@ -157,15 +166,54 @@ public class DBBufferCache {
                             CopieFaite=true;
                             copie(bl);
                             nbBlockList-=1;
-                            System.out.println("Ajout block à gauche du tableau");
                             //on ajoute le bloc au début du tableau  
                     }
                 }
             }
         }
-        pourcentage();
+        
         
     }
+    
+    public int[] updateEnregistrement(String obj, String newEnr){
+        int i = 0;
+        boolean rm = false;
+        int idSuivant = 0;
+        String currentObj = obj;
+        String currentNewEnr = newEnr;
+
+        int id[] = new int[block.length];
+        while(i < block.length && rm == false){
+            if(block[i].getEnregistrement(currentObj)){
+                id[i] = 1;
+                int s_id = block[i].getEnregistrement().indexOf(currentObj);
+                String s = (String)block[i].getEnregistrement().get(s_id);
+                idSuivant = block[i].removeEnregistrement(currentObj);
+                if(currentNewEnr.length() <= s.length()){
+                    block[i].addEnregistrement(currentNewEnr, -1);
+                    rm = true;
+                }
+                else if(idSuivant == -1){
+                    this.block[i].addEnregistrement(currentNewEnr, this.insertBlock(currentNewEnr.substring(s.length()), 0, true));
+                    rm = true;
+                }
+                else{
+                    block[i].addEnregistrement(currentNewEnr.substring(0,s.length()), -1);
+                    currentNewEnr = currentNewEnr.substring(s.length());
+                    i = idSuivant;
+                }
+            }
+            else{
+                id[i]=-1;
+                i++;
+            }
+        }
+        if(!rm)
+            System.out.println("Erreur : element inexistant.");
+        return id;
+    }
+    
+    
     public void pourcentage(){
         int pct = 0;
         for(int i = 0; i < block.length; i++){

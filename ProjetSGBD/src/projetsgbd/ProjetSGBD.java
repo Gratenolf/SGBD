@@ -15,8 +15,17 @@ public class ProjetSGBD {
      */
     public static void main(String[] args){
         MemDisque testDisque = new MemDisque();
-        testDisque.remplir("azertyuiopazertyuiopazertyuiop");
-        //String req="blabla";
+        testDisque.insertEnregistrement("baaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaap");
+        /*testDisque.insertEnregistrement("azertyuiopazertyuiopazertyuioa");
+        testDisque.remplir("azertyuiopazertyuiopazertyuiob");
+        testDisque.remplir("azertyuiopazertyuiopazertyuioc");
+        testDisque.remplir("azertyuiopazertyuiopazertyuiod");*/
+        /*testDisque.remplir("azertyuiopazertyuiopazertyuioe");
+        testDisque.remplir("azertyuiopazertyuiopazertyuiof");
+        testDisque.remplir("azertyuiopazertyuiopazertyuiog");
+        testDisque.remplir("azertyuiopazertyuiopazertyuioh");
+        testDisque.remplir("azertyuiopazertyuiopazertyuioi");
+        testDisque.remplir("azertyuiopazertyuiopazertyuioj");*/
         SGA testSGA= new SGA();
         //testSGA.Remplir("azertyuiopazertyuiopazertyuiop");
         /*testSGA.ajoutSchema(req);
