@@ -88,4 +88,21 @@ public class Block {
         }
         return -1;
     }
+    public int getId(String s){
+        int i = 0;
+        while(i < this.enregistrement.size()){
+            if(s.contains((String)this.enregistrement.get(i))){
+                    return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+    
+    public String toString(){
+        String s = new String();
+        s="";
+        s+=enregistrement.toString();
+        return s;
+    }
 }

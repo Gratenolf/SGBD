@@ -15,7 +15,7 @@ public class ProjetSGBD {
      */
     public static void main(String[] args){
         MemDisque testDisque = new MemDisque();
-        testDisque.insertEnregistrement("baaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaap");
+        testDisque.insertEnregistrement("baaaaaaaaabaaaaaaaaabaaaaaaaap");
         /*testDisque.insertEnregistrement("azertyuiopazertyuiopazertyuioa");
         testDisque.remplir("azertyuiopazertyuiopazertyuiob");
         testDisque.remplir("azertyuiopazertyuiopazertyuioc");
@@ -79,6 +79,8 @@ public class ProjetSGBD {
         
         Serveur testServ=new Serveur(testSGA,testDisque);
         testServ.start();
+        DBWR testDBWR = new DBWR(testSGA,testDisque);
+        //testDBWR.start();
         
         
         

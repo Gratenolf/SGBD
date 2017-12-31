@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package projetsgbd;
-
+import java.util.ArrayList;
 /**
  *
  * @author Adam
@@ -180,13 +180,14 @@ public class DBBufferCache {
         boolean rm = false;
         int idSuivant = 0;
         String currentObj = obj;
+        
         String currentNewEnr = newEnr;
 
         int id[] = new int[block.length];
         while(i < block.length && rm == false){
             if(block[i].getEnregistrement(currentObj)){
                 id[i] = 1;
-                int s_id = block[i].getEnregistrement().indexOf(currentObj);
+                int s_id = block[i].getId(currentObj);
                 String s = (String)block[i].getEnregistrement().get(s_id);
                 idSuivant = block[i].removeEnregistrement(currentObj);
                 if(currentNewEnr.length() <= s.length()){
@@ -221,5 +222,12 @@ public class DBBufferCache {
             pct += block[i].Pourcentage();
         }
         System.out.println("mémoire occupé à "+ (pct / block.length) +"%.");
+    }
+    
+    public String toString(){
+        String s = new String();
+        for(int i=0;i<block.length;i++)
+            s+=block[i].toString();
+        return s;
     }
 }

@@ -40,7 +40,7 @@ public class Serveur extends Thread{
     public void run(){
         while(choixrequete<2){//finProgramme==false){
             switch(choixrequete){
-                case 1: requete="baaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaapbaaaaaaaaabaaaaaaaaabaaaaaaaap";break;
+                case 1: requete="baaaaaaaaabaaaaaaaaabaaaaaaaap";break;
                 case 2: requete="azertyuiopazertyuiopazertyuioa";break;
                 case 3: requete="azertyuiopazertyuiopazertyuiob";break;
                 case 4: requete="azertyuiopazertyuiopazertyuioc";break;
@@ -74,6 +74,7 @@ public class Serveur extends Thread{
                 choixrequete+=1;
                 ResRech="Pas";
                 sgabuff.update(requete, "aaaaaaaaaaaaaaaaaaaaaaaaaa");
+                System.out.println(sgabuff.getDBBC().toString());
         }
     }
 }
