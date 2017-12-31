@@ -13,6 +13,7 @@ public class SGA {
     private DBBufferCache DBBC;//database buffer cache
     private ArrayList MRU;//tableau des requêtes
     private int MRUcourant;//nombre de requêtes dans le tableau MRU
+    private int id[];
     
     public SGA(){
         MRUcourant=19;
@@ -21,10 +22,26 @@ public class SGA {
         for(int i=0;i<20;i++){
             MRU.add("Case Vide");
         }
+        id = new int[DBBC.getNbBlock()];
+    }
+    
+    public DBBufferCache getDBBC(){
+        return DBBC;
+    }
+    
+    public int[] getid(){
+        return id;
     }
     
     public boolean getModif(){
         return DBBC.getModif();
+    }
+    
+    public void update(String enr,String newEnr){
+        int idtemp[];
+        idtemp=DBBC.updateEnregistrement(enr,newEnr);
+        for(int i=0;i<idtemp.length;i++)
+            id[i]=idtemp[i];
     }
     
     public void ajoutDonneeDisque(String req,Block bl){
@@ -37,7 +54,7 @@ public class SGA {
     }
     
     public void Remplir(String enr){
-        this.DBBC.remplir(enr);
+        this.DBBC.insertEnregistrement(enr);
     }
         
         
