@@ -17,7 +17,7 @@ public class ProjetSGBD {
         MemDisque testDisque = new MemDisque();
         testDisque.insertEnregistrement("baaaaaaaaabaaaaaaaaabaaaaaaaap");
         /*testDisque.insertEnregistrement("azertyuiopazertyuiopazertyuioa");
-        testDisque.remplir("azertyuiopazertyuiopazertyuiob");
+        /*testDisque.remplir("azertyuiopazertyuiopazertyuiob");
         testDisque.remplir("azertyuiopazertyuiopazertyuioc");
         testDisque.remplir("azertyuiopazertyuiopazertyuiod");*/
         /*testDisque.remplir("azertyuiopazertyuiopazertyuioe");
@@ -27,7 +27,6 @@ public class ProjetSGBD {
         testDisque.remplir("azertyuiopazertyuiopazertyuioi");
         testDisque.remplir("azertyuiopazertyuiopazertyuioj");*/
         SGA testSGA= new SGA();
-        //testSGA.Remplir("azertyuiopazertyuiopazertyuiop");
         /*testSGA.ajoutSchema(req);
         
         req="blablabla";

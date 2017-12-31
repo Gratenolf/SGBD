@@ -94,7 +94,6 @@ public class MemDisque {
     public Block getElemMemDisque(String requete){
        lecture=true;
        Block temp = new Block(-1);
-       System.out.println("Sur le point Disque requete: "+requete);
        if(ecriture==false){
             for(int i=0;i<5;i++){
                 if(block[i].getEnregistrement(requete)){

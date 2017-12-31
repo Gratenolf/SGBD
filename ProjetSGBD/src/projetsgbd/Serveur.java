@@ -30,15 +30,13 @@ public class Serveur extends Thread{
         
     }
     public void recupBuffer(String requete){
-        //System.out.println("recupBuffer requete: "+requete);
         ResRech=sgabuff.rechBlock(requete);
     }
     public void recupDisque(String requete){
-        //System.out.println("recupDisque requete: "+requete);
         ResRechBlock=memoireD.getElemMemDisque(requete);
     }
     public void run(){
-        while(choixrequete<2){//finProgramme==false){
+        while(choixrequete<3){//finProgramme==false){
             switch(choixrequete){
                 case 1: requete="baaaaaaaaabaaaaaaaaabaaaaaaaap";break;
                 case 2: requete="azertyuiopazertyuiopazertyuioa";break;
@@ -47,34 +45,34 @@ public class Serveur extends Thread{
                 case 5: requete="azertyuiopazertyuiopazertyuiod";break;
             }
                 
-                System.out.println("Serveur s'est réveillé la requete: "+requete);
+                System.out.println("Serveur effectue un select, enregistrement recherché :"+requete);
                 recupBuffer(requete);
-                System.out.println("ResRech: "+ResRech);
                 if(ResRech.equals("Pas"))
-                    System.out.println("Erreur pas de recherche");
+                    System.out.println("requete: "+requete+" Erreur pas de recherche");
                 else if(ResRech.equals("Pas de res")){
-                        System.out.println("Erreur pas de resultat dans le buffer");
+                        System.out.println("requete: "+requete+" Erreur pas de resultat dans le buffer");
                         recupDisque(requete);
                         
                         //si lecture pas aboutie à cause de l'écriture ou DBWR,
                         //mettre un systeme while/wait tant que lecture pas effectué
                         if(ResRechBlock.getNumero()==-1){
-                            System.out.println("Erreur pas de resultat sur le disque");
+                            System.out.println("requete: "+requete+" Erreur pas de resultat sur le disque");
                         }
                         else
                         {
-                            System.out.println("Un resultat venant de la mémoire disque!");
+                            System.out.println("requete: "+requete+" Un resultat venant de la mémoire disque!");
                             sgabuff.ajoutDonneeDisque(requete, ResRechBlock);
                             //Ecriture dans la mémoire buffercache de SGA
                         }
                 }
                 else{
-                    System.out.println("Un resultat venant de la mémoire centrale!");
+                    System.out.println("requete: "+requete+" Un resultat venant de la mémoire centrale!");
                 }
                 choixrequete+=1;
                 ResRech="Pas";
+                System.out.println("Serveur effectue un update, ancien enregistrement :"+requete+" nouvel enrgistrement : aaaaaaaaaaaaaaaaaaaaaaaaaa");
                 sgabuff.update(requete, "aaaaaaaaaaaaaaaaaaaaaaaaaa");
-                System.out.println(sgabuff.getDBBC().toString());
+                System.out.println("Bloc en mémoire Cache: "+sgabuff.getDBBC().toString());
         }
     }
 }
