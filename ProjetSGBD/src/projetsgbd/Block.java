@@ -7,10 +7,20 @@ public class Block {
     private final int taille = 100;
     private int memoirePrise;
     private ArrayList enregistrement = new ArrayList();
+    private int indiceDisque;
     
     public Block(int num){
         this.numero = num;
         this.memoirePrise = 0;
+        this.indiceDisque = -1;
+    }
+    
+    public void setIndiceDisque(int indiceDisque){
+        this.indiceDisque=indiceDisque;
+    }
+    
+    public int getIndiceDisque(){
+        return this.indiceDisque;
     }
     
     public int getNumero(){

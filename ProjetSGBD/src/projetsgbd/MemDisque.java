@@ -29,6 +29,13 @@ public class MemDisque {
         return lecture;
     }
     
+    public void RecopieBlock(Block bl,int indice){
+    for(int j=0;j<bl.getEnregistrement().size();j++){
+            block[indice].getEnregistrement().remove(j);
+            block[indice].getEnregistrement().add(j,bl.getEnregistrement(j).toString());
+        }
+    }
+    
      public void insertEnregistrement(String enr){
         ecriture=true;
         int res = remplir(enr, 0, false);
@@ -91,7 +98,8 @@ public class MemDisque {
        if(ecriture==false){
             for(int i=0;i<5;i++){
                 if(block[i].getEnregistrement(requete)){
-                    copie(temp,block[i]);  
+                    copie(temp,block[i]);
+                    temp.setIndiceDisque(i);
                 }
                     
             }
@@ -110,6 +118,13 @@ public class MemDisque {
             pct += block[i].Pourcentage();
         }
         System.out.println("mémoire occupé à "+ (pct / block.length) +"%.");
+    }
+    
+    public String toString(){
+        String s = new String();
+        for(int i=0;i<block.length;i++)
+            s+=block[i].toString();
+        return s;
     }
     
 }

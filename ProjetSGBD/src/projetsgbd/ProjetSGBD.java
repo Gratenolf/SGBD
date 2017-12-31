@@ -80,7 +80,7 @@ public class ProjetSGBD {
         Serveur testServ=new Serveur(testSGA,testDisque);
         testServ.start();
         DBWR testDBWR = new DBWR(testSGA,testDisque);
-        //testDBWR.start();
+        testDBWR.start();
         
         
         

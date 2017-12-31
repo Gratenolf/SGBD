@@ -38,6 +38,10 @@ public class DBBufferCache {
     public boolean getModif(){
         return modif;
     }
+    
+    public void setModif(boolean modif){
+        this.modif=modif;
+    }
   
     public void insertEnregistrement(String enr){
         int res = insertBlock(enr, 0, false);
@@ -113,6 +117,7 @@ public class DBBufferCache {
         for(int j=0;j<Source.getEnregistrement().size();j++){
             block[nbBlockList].addEnregistrement(Source.getEnregistrement(j).toString(), j);
         }
+        block[nbBlockList].setIndiceDisque(Source.getIndiceDisque());
 
     }
     
@@ -120,6 +125,7 @@ public class DBBufferCache {
         for(int j=0;j<Source.getEnregistrement().size();j++){
             Dest.addEnregistrement(Source.getEnregistrement(j).toString(), j);
         }
+        Dest.setIndiceDisque(Source.getIndiceDisque());
     }
     
     public void ajoutDonneeDisque(String req,Block bl){
@@ -192,16 +198,24 @@ public class DBBufferCache {
                 idSuivant = block[i].removeEnregistrement(currentObj);
                 if(currentNewEnr.length() <= s.length()){
                     block[i].addEnregistrement(currentNewEnr, -1);
+                    modif=true;
                     rm = true;
                 }
                 else if(idSuivant == -1){
-                    this.block[i].addEnregistrement(currentNewEnr, this.insertBlock(currentNewEnr.substring(s.length()), 0, true));
-                    rm = true;
+                        this.block[i].addEnregistrement(currentNewEnr, this.insertBlock(currentNewEnr.substring(s.length()), 0, true));
+                        modif=true;
+                        rm = true;
                 }
+                else if(idSuivant != -1){
+                        this.removeEnregistrement(currentObj.substring(s.length()));
+                        modif=true;
+                        rm = true;
+                    }   
                 else{
                     block[i].addEnregistrement(currentNewEnr.substring(0,s.length()), -1);
                     currentNewEnr = currentNewEnr.substring(s.length());
                     i = idSuivant;
+                    modif=true;
                 }
             }
             else{

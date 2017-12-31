@@ -24,13 +24,39 @@ public class DBWR extends Thread{
     public void run(){
         while(finProgramme==false){
             if(sgabuff.getModif()){
+                
                 if(memoireD.getLecture()==false){
+                    System.out.println("Entree écriture");
                     id=sgabuff.getid();
-                    for(int i=0;i<id.length;i++){
-                        for(int j=0;j<sgabuff.getDBBC().getBlock().length;j++){
-                            memoireD.insertEnregistrement((String)sgabuff.getDBBC().getBlock()[id[i]].getEnregistrement(j));
+                    Block temp[];
+                    for(int i=0;i<sgabuff.getDBBC().getBlock().length;i++){
+                        for(int j=0;j<id.length;j++){
+                            System.out.println("j "+j);
+                            if(i==id[j]){
+                                //temp=sgabuff.getDBBC().getBlock();
+                                System.out.println("ID "+id[j]+" I "+i+" J "+j+ " DBWR "+sgabuff.getDBBC().getBlock()[j].toString()+" Indice Disque "+sgabuff.getDBBC().getBlock()[j].getIndiceDisque());
+                                memoireD.RecopieBlock(sgabuff.getDBBC().getBlock()[j],sgabuff.getDBBC().getBlock()[j].getIndiceDisque());
+                                System.out.println("REECRITUREDISQUE "+memoireD.toString());
+                                sgabuff.getDBBC().setModif(false);
+                            }
                         }
                     }
+                     //parcours des block en buffer
+                            //Si le block correspond au tableau d'id
+                            //Alors le copie à l'emplacement de son idDisque
+                    
+                    
+                    /*for(int i=0;i<id.length;i++){
+                        for(int j=0;j<sgabuff.getDBBC().getBlock().length;j++){
+                            
+                           
+                            
+                            for(memoireD)
+                                if(i==)
+                            memoireD.RecopieBlock(bl);
+                            //memoireD.insertEnregistrement((String)sgabuff.getDBBC().getBlock()[id[i]].getEnregistrement(j));
+                        }
+                    }*/
                 }
                 else{
                     try{
