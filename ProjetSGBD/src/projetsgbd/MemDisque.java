@@ -29,26 +29,51 @@ public class MemDisque {
         return lecture;
     }
     
-    public void remplir(String enr){
+     public void insertEnregistrement(String enr){
         ecriture=true;
-        boolean rempli=false;
-        if(lecture==false){
-            for(int i=0;i<5;i++){
-                if(rempli==false){
-
-                    if(enr.getBytes().length < block[i].getTaille()){
-                        block[i].addEnregistrement(enr,nbBlocCourant);
-                        rempli=true;
-                    }
-                    else
-                    {
-                        nbBlocCourant+=1;
-                    }
+        int res = remplir(enr, 0, false);
+        if(res == -1)
+            System.out.println("Erreur : mémoire dépassée.");
+        ecriture=false;
+    }
+    
+    private int remplir(String enr, int id, boolean decoup){
+        boolean pos = false;
+        int retour = 0;
+        if((enr.getBytes().length + block[id].getMemoirePrise()) <= block[id].getTaille()){
+            block[id].addEnregistrement(enr, -1);
+            pos = true;
+            if(decoup)
+                return id;
+            else
+                return 0;
+        }
+        else if(enr.length() >= 40){
+            int nbDecoup = 0;
+            if(block[id].Pourcentage() < 95){
+                if(block[id].Pourcentage() >= 90){
+                    nbDecoup = 20;
                 }
+                else{
+                    int bytesRestant = block[id].getTaille() - block[id].getMemoirePrise();
+                    int seuilDecoup = bytesRestant;
+                    if(enr.length() - seuilDecoup < 20)
+                        nbDecoup = enr.length() - 20;
+                    else
+                        nbDecoup = seuilDecoup;
+                }
+                String subStr = enr.substring(0,nbDecoup);
+                int lien = remplir(enr.substring(nbDecoup), (id + 1), true);
+                block[id].addEnregistrement(subStr, lien);
+                pos = true;
             }
         }
-        ecriture=false;
-        nbBlocCourant=0;
+        if(id < block.length && pos == false)
+            retour = remplir(enr, (id + 1), decoup);
+        else if(retour == 0 && pos == false)
+            retour = -1;
+        pourcentage();
+        return retour;
     }
     
     
@@ -76,6 +101,15 @@ public class MemDisque {
        }
        lecture=false;
        return temp;
+    }
+    
+    public void pourcentage(){
+        int pct = 0;
+        for(int i = 0; i < block.length; i++){
+            System.out.println("Bloc "+ i +" : occupé à "+ block[i].Pourcentage() +"%.");
+            pct += block[i].Pourcentage();
+        }
+        System.out.println("mémoire occupé à "+ (pct / block.length) +"%.");
     }
     
 }
